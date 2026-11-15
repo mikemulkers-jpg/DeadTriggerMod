@@ -1,15 +1,14 @@
-name: Build Mod Menu
+name: Build
 on: [push, workflow_dispatch]
 jobs:
 build:
 runs-on: ubuntu-latest
 steps:
 - uses: actions/checkout@v4
-- name: Bauen
-run: unzip -q Android-Mod-Menu-main.zip && cd $(dirname $(find . -name "build.gradle" | head -n 1))/.. && wget -q https://gradle.org && unzip -q gradle-8.4-bin.zip && ./gradle-8.4/bin/gradle assembleDebug
-- name: Speichern
-uses: actions/upload-artifact@v4
+- uses: gradle/actions/setup-gradle@v3
+with:
+gradle-version: 8.4 - run: unzip -q Android-Mod-Menu-main.zip && cd $(dirname $(find . -name "build.gradle" | head -n 1))/.. && gradle assembleDebug
+-uses: actions/upload-artifact@v4
 with:
 name: DeadTriggerMod-APK
 path: "**/app-debug.apk"
-
