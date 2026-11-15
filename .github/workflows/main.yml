@@ -5,15 +5,11 @@ build:
 runs-on: ubuntu-latest
 steps:
 - uses: actions/checkout@v4
-- name: Entpacken und Bauen
-run: |
-unzip -q Android-Mod-Menu-main.zip
-cd $(dirname $(find . -name "build.gradle" | head -n 1))/..
-gradle wrapper --gradle-version 8.4 || true
-chmod +x gradlew || true
-./gradlew assembleDebug
-- name: Fertige APK speichern
+- name: Bauen
+run: unzip -q Android-Mod-Menu-main.zip && cd $(dirname $(find . -name "build.gradle" | head -n 1))/.. && wget -q https://gradle.org && unzip -q gradle-8.4-bin.zip && ./gradle-8.4/bin/gradle assembleDebug
+- name: Speichern
 uses: actions/upload-artifact@v4
 with:
 name: DeadTriggerMod-APK
 path: "**/app-debug.apk"
+
